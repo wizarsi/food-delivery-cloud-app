@@ -1,0 +1,12 @@
+services:
+  main-service-1:
+    image: bball30/main-service
+    container_name: main-service-1
+    ports:
+      - "8000:8000"
+
+  main-service-2:
+    image: bball30/main-service
+    container_name: main-service-1
+    ports:
+      - "8000:8000"

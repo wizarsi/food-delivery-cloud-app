@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://rc1b-ydc8j4z3ajcc3uca.mdb.yandexcloud.net:6432/restaurant-service
+    username: postgres1
+    password: postgres1
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  application:
+    name: restaurant-service
+  kafka:
+    bootstrap-servers:
+      - "rc1a-8crmdg2t0i5c9f3u.mdb.yandexcloud.net:9091"
+      - "rc1b-vb5devk0flfglqto.mdb.yandexcloud.net:9091"
+      - "rc1c-71rioabnllo5j0o5.mdb.yandexcloud.net:9091"
+    consumer:
+      group-id: orders_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SASL_SSL
+        sasl.mechanism: SCRAM-SHA-512
+        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="user-reader" password="user-reader";
+        ssl.truststore.location: /etc/security/ssl
+        ssl.truststore.password: changeit
+
+
+topic:
+  name:
+    consumer: queueOrdersUsers
+
+
+server:
+  port: 6060
+
+eureka:
+  client:
+    service-url:
+      default-zone: ${EUREKA.URI:http://localhost:8761/eureka}
+    instance:
+      prefer-ip-address: true
