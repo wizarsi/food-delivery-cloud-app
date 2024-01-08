@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://rc1b-ydc8j4z3ajcc3uca.mdb.yandexcloud.net:6432/user-credentials
+    url: jdbc:postgresql://rc1b-aba7ujxtchgjaaf5.mdb.yandexcloud.net:6432/user-credentials
     username: postgres1
     password: postgres1
   jpa:
@@ -17,8 +17,8 @@ server:
   port: 8090
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
-    service-url:
-      default-zone: ${EUREKA.URI:http://localhost:8761/eureka}
-    instance:
-      prefer-ip-address: true
+    serviceUrl:
+      defaultZone: ${REGISTRY_SERVICE_URL:http://localhost:8761/eureka}

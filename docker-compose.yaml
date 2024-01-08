@@ -1,12 +1,65 @@
 services:
-  main-service-1:
-    image: bball30/main-service
-    container_name: main-service-1
+  eureka-server:
+    image: eureka-server:latest
+    hostname: eureka-server
+    environment:
+      PORT: 8761
+      REGISTRY_SERVICE_HA: "true"
+      REGISTRY_SERVICE_URL: http://eureka-server:8761/eureka
+    expose:
+      - 8761
     ports:
-      - "8000:8000"
+      - 8761:8761
 
-  main-service-2:
-    image: bball30/main-service
-    container_name: main-service-1
+  api-auth:
+    image: api-auth:latest
+    depends_on:
+      - eureka-server
+    container_name: api-auth
+    environment:
+      REGISTRY_SERVICE_URL: http://eureka-server:8761/eureka
     ports:
-      - "8000:8000"
+      - 8090:8090
+    expose:
+      - 8090
+
+  api-gateway:
+    image: api-gateway:latest
+    container_name: api-gateway
+    depends_on:
+      - eureka-server
+      - api-auth
+    environment:
+      REGISTRY_SERVICE_URL: http://eureka-server:8761/eureka
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+
+  restaurant-service:
+    image: restaurant-service:latest
+    container_name: restaurant-service
+    depends_on:
+      - eureka-server
+    environment:
+      REGISTRY_SERVICE_URL: http://eureka-server:8761/eureka
+    volumes:
+      - /etc/security/ssl:/etc/security/ssl
+    ports:
+      - 6060:6060
+    expose:
+      - 6060
+
+  user-service:
+    image: user-service:latest
+    container_name: user-service
+    depends_on:
+      - eureka-server
+    environment:
+      REGISTRY_SERVICE_URL: http://eureka-server:8761/eureka
+    volumes:
+      - /etc/security/ssl:/etc/security/ssl
+    ports:
+      - 6262:6262
+    expose:
+      - 6262

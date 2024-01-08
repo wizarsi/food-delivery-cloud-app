@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://rc1b-ydc8j4z3ajcc3uca.mdb.yandexcloud.net:6432/user-service
+    url: jdbc:postgresql://rc1b-aba7ujxtchgjaaf5.mdb.yandexcloud.net:6432/user-service
     username: postgres1
     password: postgres1
   jpa:
@@ -11,9 +11,9 @@ spring:
     name: user-service
   kafka:
     bootstrap-servers:
-      - "rc1a-8crmdg2t0i5c9f3u.mdb.yandexcloud.net:9091"
-      - "rc1b-vb5devk0flfglqto.mdb.yandexcloud.net:9091"
-      - "rc1c-71rioabnllo5j0o5.mdb.yandexcloud.net:9091"
+      - "rc1a-42fgsrnd3sq3oa7g.mdb.yandexcloud.net:9091"
+      - "rc1b-ce6nbs45l44u7mst.mdb.yandexcloud.net:9091"
+      - "rc1c-af6obcpvq7vavhtk.mdb.yandexcloud.net:9091"
     producer:
       properties:
         security.protocol: SASL_SSL
@@ -30,11 +30,11 @@ server:
   port: 6262
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
-    service-url:
-      default-zone: ${EUREKA.URI:http://localhost:8761/eureka}
-    instance:
-      prefer-ip-address: true
+    serviceUrl:
+      defaultZone: ${REGISTRY_SERVICE_URL:http://localhost:8761/eureka}
 
 resilience4j:
   circuitbreaker:
